@@ -1,0 +1,53 @@
+{
+    "layout_rules": {
+      "poster": [0, 150],
+      "banner": [150, 300],
+      "standee": [300, 450]
+    },
+    "proximity_rules": {
+      "min_distance_same_type": 50,
+      "min_distance_different_type": 30
+    },
+    "appearance_rules": {
+      "poster": {
+        "aspect_ratio_range": [0.8, 1.2],
+        "expected_area_range": [5000, 15000],
+        "expected_colors": ["red", "blue", "yellow"]
+      },
+      "banner": {
+        "aspect_ratio_range": [1.5, 3.0],
+        "expected_area_range": [7000, 20000],
+        "expected_colors": ["green", "blue", "red"]
+      },
+      "standee": {
+        "aspect_ratio_range": [0.5, 0.8],
+        "expected_area_range": [6000, 18000],
+        "expected_colors": ["brown", "beige", "orange"]
+      }
+    },
+    "damage_detection": {
+      "edge_ratio_thresholds": {
+        "poster": 0.15,
+        "banner": 0.12,
+        "standee": 0.18
+      },
+      "texture_uniformity_thresholds": {
+        "poster": 0.8,
+        "banner": 0.75,
+        "standee": 0.7
+      },
+      "color_consistency_thresholds": {
+        "poster": 0.85,
+        "banner": 0.8,
+        "standee": 0.75
+      }
+    },
+    "shelf_zones": [0, 150, 300, 450, 600],
+    "zone_names": ["Top Shelf", "Middle Shelf 1", "Middle Shelf 2", "Bottom Shelf"],
+    "allowed_anomaly_percentage": 0.1,
+    "anomaly_severity_thresholds": {
+      "low": 0.3,
+      "medium": 0.6,
+      "high": 0.8
+    }
+  }

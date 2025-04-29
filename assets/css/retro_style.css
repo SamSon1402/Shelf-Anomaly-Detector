@@ -1,0 +1,389 @@
+/* Retro Gaming Style for Shelf Integrity Monitor */
+
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Space+Mono&display=swap');
+
+/* Main retro styling */
+* {
+    font-family: 'VT323', monospace;
+}
+
+body {
+    background-color: #000080;
+    color: white;
+}
+
+h1, h2, h3 {
+    font-family: 'VT323', monospace !important;
+    color: #FFD700 !important; /* Golden yellow */
+    text-shadow: 3px 3px 0px #FF6B6B; /* Coral shadow */
+}
+
+/* Code blocks */
+code {
+    font-family: 'Space Mono', monospace !important;
+    background-color: #000080 !important; /* Navy blue */
+    color: #00FF00 !important; /* Green text */
+    border: 2px solid #FFFFFF !important;
+    padding: 5px !important;
+}
+
+/* Sidebar */
+.css-1d391kg {
+    background-color: #000080 !important; /* Navy blue */
+}
+
+.css-1d391kg .block-container {
+    border-right: 4px solid #FFD700 !important; /* Golden yellow */
+}
+
+/* Buttons */
+.stButton>button {
+    font-family: 'VT323', monospace !important;
+    background-color: #FF6B6B !important; /* Coral */
+    color: white !important;
+    border: 3px solid #FFD700 !important; /* Golden yellow */
+    border-radius: 0px !important; /* Square borders for pixel look */
+    box-shadow: 4px 4px 0px #000000 !important; /* Black shadow */
+    transition: transform 0.1s, box-shadow 0.1s !important;
+}
+
+.stButton>button:hover {
+    transform: translate(2px, 2px) !important;
+    box-shadow: 2px 2px 0px #000000 !important; /* Reduced shadow on hover */
+}
+
+/* Progress bar */
+.stProgress .st-bo {
+    background-color: #FF6B6B !important; /* Coral */
+    height: 20px !important;
+    border-radius: 0px !important; /* Square for pixel look */
+}
+
+.stProgress .st-bp {
+    background-color: #FFD700 !important; /* Golden yellow */
+    border-radius: 0px !important; /* Square for pixel look */
+}
+
+/* Dataframe styling */
+.dataframe {
+    border: 3px solid #FFD700 !important; /* Golden yellow */
+    font-family: 'Space Mono', monospace !important;
+}
+
+.dataframe th {
+    background-color: #FF6B6B !important; /* Coral */
+    color: white !important;
+    border: 2px solid black !important;
+}
+
+.dataframe td {
+    border: 2px solid black !important;
+}
+
+/* Pixel border effect for images */
+.pixel-border {
+    border: 4px solid #FFD700 !important; /* Golden yellow */
+    image-rendering: pixelated !important;
+    padding: 0 !important;
+    box-shadow: 8px 8px 0px #FF6B6B !important; /* Coral shadow */
+}
+
+/* Game message box */
+.game-message {
+    background-color: #000080 !important; /* Navy blue */
+    border: 4px solid #FFD700 !important; /* Golden yellow */
+    color: white !important;
+    padding: 10px !important;
+    margin: 10px 0 !important;
+    box-shadow: 5px 5px 0px #FF6B6B !important; /* Coral shadow */
+}
+
+/* Animated pixel text effect */
+@keyframes pixel-text {
+    0% { text-shadow: 2px 2px 0px #FF6B6B; }
+    50% { text-shadow: 3px 3px 0px #FF6B6B; }
+    100% { text-shadow: 2px 2px 0px #FF6B6B; }
+}
+
+.pixel-text {
+    animation: pixel-text 2s infinite;
+}
+
+/* Pixel-style select box */
+.stSelectbox label {
+    color: #FFD700 !important;
+    text-shadow: 2px 2px 0px #FF6B6B !important;
+}
+
+.stSelectbox > div > div {
+    background-color: #000080 !important;
+    border: 3px solid #FFD700 !important;
+    border-radius: 0px !important;
+    color: white !important;
+}
+
+/* Checkbox styling */
+.stCheckbox label {
+    color: #FFD700 !important;
+    text-shadow: 1px 1px 0px #FF6B6B !important;
+}
+
+.stCheckbox > div > div {
+    background-color: #000080 !important;
+    border: 2px solid #FFD700 !important;
+    border-radius: 0px !important;
+}
+
+/* Radio button styling */
+.stRadio label {
+    color: #FFD700 !important;
+    text-shadow: 1px 1px 0px #FF6B6B !important;
+}
+
+/* Stats container */
+.stats-container {
+    background-color: #000080 !important;
+    padding: 10px !important;
+    border: 3px solid #FFD700 !important;
+    text-align: center !important;
+}
+
+.stats-value {
+    font-size: 2.5em !important;
+    color: white !important;
+    font-family: "VT323", monospace !important;
+    margin: 0 !important;
+}
+
+.stats-label {
+    color: #FFD700 !important;
+    margin: 0 !important;
+}
+
+/* Tab styling */
+.stTabs [data-baseweb="tab-list"] {
+    gap: 2px;
+}
+
+.stTabs [data-baseweb="tab"] {
+    background-color: #000080 !important;
+    border: 2px solid #FFD700 !important;
+    border-radius: 0px !important;
+    color: white !important;
+    padding: 5px 15px !important;
+}
+
+.stTabs [aria-selected="true"] {
+    background-color: #FF6B6B !important;
+    border-bottom: 2px solid #FFD700 !important;
+}
+
+/* File uploader */
+.stFileUploader {
+    background-color: #000080 !important;
+    border: 3px solid #FFD700 !important;
+    padding: 10px !important;
+    border-radius: 0px !important;
+}
+
+.stFileUploader button {
+    background-color: #FF6B6B !important;
+    border-radius: 0px !important;
+    color: white !important;
+    font-family: 'VT323', monospace !important;
+    border: 2px solid white !important;
+}
+
+/* Header styles */
+.header-container {
+    background-color: #000080;
+    border-bottom: 4px solid #FFD700;
+    padding: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0px 4px 0px #FF6B6B;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #000080;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #FFD700;
+    border: 2px solid #000080;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #FF6B6B;
+}
+
+/* Modal dialog */
+.stAlert {
+    background-color: #000080 !important;
+    border: 3px solid #FFD700 !important;
+    box-shadow: 5px 5px 0px #FF6B6B !important;
+}
+
+.stAlert > div {
+    color: white !important;
+}
+
+/* Table styling for statistics */
+.stats-table {
+    border-collapse: separate !important;
+    border-spacing: 4px !important;
+    width: 100% !important;
+}
+
+.stats-table th, .stats-table td {
+    border: 2px solid #FFD700 !important;
+    padding: 8px !important;
+    text-align: center !important;
+}
+
+.stats-table th {
+    background-color: #FF6B6B !important;
+    color: white !important;
+}
+
+.stats-table td {
+    background-color: #000080 !important;
+    color: white !important;
+}
+
+/* Special pixel art elements */
+.pixel-container {
+    image-rendering: pixelated;
+    padding: 10px;
+    border: 4px solid #FFD700;
+    background-color: #000080;
+    box-shadow: 5px 5px 0px #FF6B6B;
+}
+
+/* Classic arcade footer */
+.arcade-footer {
+    font-family: 'VT323', monospace;
+    text-align: center;
+    padding: 10px;
+    margin-top: 30px;
+    border-top: 4px solid #FFD700;
+    color: white;
+}
+
+/* Speech bubble for game character */
+.speech-bubble {
+    position: relative;
+    background: #000080;
+    border: 3px solid #FFD700;
+    padding: 15px;
+    margin: 15px 0;
+    color: white;
+}
+
+.speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 30px;
+    border-width: 15px 15px 0;
+    border-style: solid;
+    border-color: #FFD700 transparent;
+}
+
+/* 8-bit life bar */
+.life-bar-container {
+    width: 100%;
+    height: 20px;
+    background-color: #333;
+    border: 2px solid #FFD700;
+}
+
+.life-bar {
+    height: 100%;
+    background-color: #FF6B6B;
+}
+
+/* Health status indicator */
+.health-indicator {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.health-good {
+    background-color: #00FF00;
+}
+
+.health-warning {
+    background-color: #FFFF00;
+}
+
+.health-critical {
+    background-color: #FF0000;
+}
+
+/* Blinking text effect for alerts */
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+
+.blink-alert {
+    animation: blink 1s infinite;
+    color: #FF0000;
+    font-weight: bold;
+}
+
+/* Power-up button for special actions */
+.power-up-button {
+    background-color: #FFD700 !important;
+    color: #000080 !important;
+    border: 3px solid white !important;
+    padding: 10px 20px !important;
+    font-size: 1.2em !important;
+    font-family: 'VT323', monospace !important;
+    box-shadow: 0 5px 0 #FF6B6B !important;
+    transition: all 0.1s !important;
+    text-transform: uppercase !important;
+}
+
+.power-up-button:hover {
+    transform: translateY(3px) !important;
+    box-shadow: 0 2px 0 #FF6B6B !important;
+}
+
+/* Retro console window for log messages */
+.console-window {
+    background-color: black;
+    border: 3px solid #FFD700;
+    padding: 10px;
+    font-family: 'Space Mono', monospace;
+    color: #00FF00;
+    height: 150px;
+    overflow-y: auto;
+}
+
+.console-prompt::before {
+    content: "> ";
+    color: #00FF00;
+}
+
+/* Game-style loading animation */
+@keyframes loading-dots {
+    0% { content: "."; }
+    25% { content: ".."; }
+    50% { content: "..."; }
+    75% { content: "...."; }
+    100% { content: "....."; }
+}
+
+.loading-text::after {
+    content: ".";
+    animation: loading-dots 1s infinite;
+}
