@@ -228,7 +228,7 @@ def generate_promo_item(item_type, size=(100, 100)):
     
     return img
 
-# Place promotional items on shelf
+# FIXED Place promotional items on shelf function
 def place_promo_items(shelf_img, items_config, add_anomaly=False, anomaly_type=None):
     shelf_with_items = shelf_img.copy()
     items_data = []
@@ -276,53 +276,69 @@ def place_promo_items(shelf_img, items_config, add_anomaly=False, anomaly_type=N
                 dup_pos_x = position[0] + random.randint(-50, 50)
                 dup_pos_x = max(0, min(dup_pos_x, shelf_img.shape[1] - w))
                 
-                # Add the duplicate to the shelf
-                roi = shelf_with_items[actual_position[1]:actual_position[1]+h, 
-                                      dup_pos_x:dup_pos_x+w]
+                # Make sure the duplicate position is valid
+                y1, y2 = actual_position[1], actual_position[1] + h
+                x1, x2 = dup_pos_x, dup_pos_x + w
                 
-                # Only replace non-black pixels to preserve transparency effect
-                item_mask = item_img != 255
-                roi[item_mask] = item_img[item_mask]
-                
-                # Add the duplicate to the items data
-                items_data.append({
-                    "id": f"{item_type}_{i}_duplicate",
-                    "type": item_type,
-                    "position": [dup_pos_x, actual_position[1]],
-                    "expected_zone": expected_zone,
-                    "actual_zone": actual_zone,
-                    "anomaly": "duplicate",
-                    "bbox": [dup_pos_x, actual_position[1], dup_pos_x+w, actual_position[1]+h]
-                })
+                # Check if the duplicate region is within bounds
+                if (y1 >= 0 and y2 <= shelf_with_items.shape[0] and 
+                    x1 >= 0 and x2 <= shelf_with_items.shape[1]):
+                    # Get the region of interest
+                    roi = shelf_with_items[y1:y2, x1:x2]
+                    
+                    # Create a mask that matches the ROI dimensions
+                    item_mask = item_img != 255
+                    
+                    # Ensure the mask dimensions match the ROI dimensions
+                    if roi.shape[:2] == item_mask.shape[:2]:
+                        # Only replace non-black pixels to preserve transparency effect
+                        roi[item_mask] = item_img[item_mask]
+                        
+                        # Add the duplicate to the items data
+                        items_data.append({
+                            "id": f"{item_type}_{i}_duplicate",
+                            "type": item_type,
+                            "position": [dup_pos_x, actual_position[1]],
+                            "expected_zone": expected_zone,
+                            "actual_zone": actual_zone,
+                            "anomaly": "duplicate",
+                            "bbox": [dup_pos_x, actual_position[1], dup_pos_x+w, actual_position[1]+h],
+                            "zone": actual_zone  # Ensure zone is added
+                        })
         
         # Place the item on the shelf
         y1, y2 = actual_position[1], actual_position[1] + h
         x1, x2 = actual_position[0], actual_position[0] + w
         
-        # Make sure we don't go out of bounds
-        if y2 > shelf_with_items.shape[0] or x2 > shelf_with_items.shape[1]:
-            continue
+        # Check if the region is within bounds before placing
+        if (y1 >= 0 and y2 <= shelf_with_items.shape[0] and 
+            x1 >= 0 and x2 <= shelf_with_items.shape[1]):
             
-        roi = shelf_with_items[y1:y2, x1:x2]
-        
-        # Only replace non-black pixels to preserve transparency effect
-        item_mask = item_img != 255
-        roi[item_mask] = item_img[item_mask]
-        
-        # Record the item data
-        anomaly_status = "none"
-        if add_anomaly and i == len(items_config) - 1:
-            anomaly_status = anomaly_type
+            roi = shelf_with_items[y1:y2, x1:x2]
             
-        items_data.append({
-            "id": f"{item_type}_{i}",
-            "type": item_type,
-            "position": actual_position,
-            "expected_zone": expected_zone,
-            "actual_zone": actual_zone,
-            "anomaly": anomaly_status,
-            "bbox": [x1, y1, x2, y2]
-        })
+            # Create a mask that matches the ROI dimensions
+            item_mask = item_img != 255
+            
+            # Ensure the mask dimensions match the ROI dimensions
+            if roi.shape[:2] == item_mask.shape[:2]:
+                # Only replace non-black pixels to preserve transparency effect
+                roi[item_mask] = item_img[item_mask]
+                
+                # Record the item data
+                anomaly_status = "none"
+                if add_anomaly and i == len(items_config) - 1:
+                    anomaly_status = anomaly_type
+                    
+                items_data.append({
+                    "id": f"{item_type}_{i}",
+                    "type": item_type,
+                    "position": actual_position,
+                    "expected_zone": expected_zone,
+                    "actual_zone": actual_zone,
+                    "anomaly": anomaly_status,
+                    "bbox": [x1, y1, x2, y2],
+                    "zone": actual_zone  # Ensure zone is added
+                })
     
     return shelf_with_items, items_data
 
@@ -468,7 +484,7 @@ def detect_misplaced_items(detected_objects, layout_rules=None):
     
     for obj in detected_objects:
         expected_zones = layout_rules.get(obj["type"], [])
-        if expected_zones and obj["zone"] not in expected_zones:
+        if expected_zones and obj.get("zone", -1) not in expected_zones:
             obj["anomaly"] = "misplaced"
             obj["expected_zone"] = expected_zones[0]  # Just use the first expected zone
             anomalies.append(obj)
@@ -801,9 +817,13 @@ def process_synthetic_image(image, ground_truth, has_anomaly,
     # Create a table of detected objects
     st.markdown("<h3 style='color:#FFD700; text-shadow: 2px 2px #FF6B6B;'>DETECTED ITEMS</h3>", unsafe_allow_html=True)
     
-    # Convert to DataFrame for nice display
+    # Convert to DataFrame for nice display - FIXED: Use .get() for safe access to potentially missing keys
     detection_df = pd.DataFrame([
-        {"ID": obj["id"], "Type": obj["type"], "Zone": obj["zone"]}
+        {
+            "ID": obj["id"], 
+            "Type": obj["type"], 
+            "Zone": obj.get("zone", "Unknown")
+        }
         for obj in detected_objects
     ])
     
@@ -834,13 +854,13 @@ def process_synthetic_image(image, ground_truth, has_anomaly,
     if anomalies:
         st.markdown("<h3 style='color:#FFD700; text-shadow: 2px 2px #FF6B6B;'>ANOMALIES FOUND</h3>", unsafe_allow_html=True)
         
-        # Convert to DataFrame for nice display
+        # Convert to DataFrame for nice display - FIXED: Use .get() for safe access
         anomaly_df = pd.DataFrame([
             {
                 "ID": obj["id"], 
                 "Type": obj["type"], 
                 "Anomaly": obj.get("anomaly", "none"),
-                "Zone": obj["zone"],
+                "Zone": obj.get("zone", "Unknown"),
                 "Expected Zone": obj.get("expected_zone", "N/A")
             }
             for obj in anomalies
@@ -966,9 +986,13 @@ def process_image(image, detect_misplaced=True, detect_damaged=True, detect_dupl
     # Create a table of detected objects
     st.markdown("<h3 style='color:#FFD700; text-shadow: 2px 2px #FF6B6B;'>DETECTED ITEMS</h3>", unsafe_allow_html=True)
     
-    # Convert to DataFrame for nice display
+    # Convert to DataFrame for nice display - FIXED: Use .get() for safe access
     detection_df = pd.DataFrame([
-        {"ID": obj["id"], "Type": obj["type"], "Zone": obj["zone"]}
+        {
+            "ID": obj["id"], 
+            "Type": obj["type"], 
+            "Zone": obj.get("zone", "Unknown")
+        }
         for obj in detected_objects
     ])
     
@@ -999,13 +1023,13 @@ def process_image(image, detect_misplaced=True, detect_damaged=True, detect_dupl
     if anomalies:
         st.markdown("<h3 style='color:#FFD700; text-shadow: 2px 2px #FF6B6B;'>ANOMALIES FOUND</h3>", unsafe_allow_html=True)
         
-        # Convert to DataFrame for nice display
+        # Convert to DataFrame for nice display - FIXED: Use .get() for safe access
         anomaly_df = pd.DataFrame([
             {
                 "ID": obj["id"], 
                 "Type": obj["type"], 
                 "Anomaly": obj.get("anomaly", "none"),
-                "Zone": obj["zone"],
+                "Zone": obj.get("zone", "Unknown"),
                 "Expected Zone": obj.get("expected_zone", "N/A")
             }
             for obj in anomalies
